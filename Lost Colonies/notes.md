@@ -50,7 +50,7 @@ Phantom Doctrine
 Shining Force
 
 ---
-Devlog :
+Devlog : 
 
 Episode 1 (17/10/22):
 Debrief, feature list, inspirations
