@@ -38,8 +38,9 @@ namespace Lost_Colonies
 
             MainGame.SceneManager.AddScene("menu", new SceneMenu());
             MainGame.SceneManager.AddScene("test", new SceneTest());
+            MainGame.SceneManager.AddScene("planetlist", new ScenePlanetList());
 
-            MainGame.SceneManager.StartScene("menu");
+            MainGame.SceneManager.StartScene("planetlist");
 
             MainGame.FontManager.AddFont("fontSmall");
             MainGame.FontManager.AddFont("fontMedium");
