@@ -60,3 +60,7 @@ On a importé et adapté le framework du projet de ma LD36.
 Ajouté un Service Locator.
 Créé 2 scène : menu et test.
 
+Episode 3 (31/10/22):
+Générateur de noms de planètes.
+"..LEXEGEZACEBISOUSESARMAINDIREA.ERATENBERALAVETIEDORQUANTEISRION"
+https://github.com/fragglet/txtelite/blob/master/txtelite.c
