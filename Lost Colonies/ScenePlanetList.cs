@@ -50,7 +50,7 @@ namespace Lost_Colonies
             base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw()
         {
             SpriteFont font = GCServiceLocator.GetService<FontManager>().getFont("fontBig");
             spriteBatch.DrawString(font, "Liste des planètes", new Vector2(1, 1), Color.White);
@@ -69,6 +69,11 @@ namespace Lost_Colonies
             }
 
             spriteBatch.DrawString(font, first.ToString(), new Vector2(400, 1), Color.White);
+        }
+
+        public override void DrawGUI()
+        {
+            
         }
     }
 }

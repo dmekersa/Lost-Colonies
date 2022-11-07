@@ -63,9 +63,14 @@ namespace Gamecodeur
             CurrentScene.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw()
         {
-            CurrentScene.Draw(gameTime);
+            CurrentScene.Draw();
+        }
+
+        public void DrawGUI()
+        {
+            CurrentScene.DrawGUI();
         }
     }
 }

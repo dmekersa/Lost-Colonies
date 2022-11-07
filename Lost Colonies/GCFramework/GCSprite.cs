@@ -128,7 +128,7 @@ namespace Gamecodeur
             }
         }
 
-        public virtual void Draw(GameTime gameTime)
+        public virtual void Draw()
         {
             if (!isVisible) return;
 

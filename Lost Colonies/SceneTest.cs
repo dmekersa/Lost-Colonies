@@ -10,9 +10,14 @@ namespace Lost_Colonies
 {
     internal class SceneTest : GCSceneBase
     {
-        public override void Draw(GameTime gameTime)
+        public override void Draw()
         {
             spriteBatch.DrawString(GCServiceLocator.GetService<FontManager>().getFont("fontBig"), "Scène de test", new Vector2(1, 1), Color.White);
+        }
+
+        public override void DrawGUI()
+        {
+            
         }
     }
 }

@@ -10,7 +10,7 @@ using LD36;
 
 namespace Gamecodeur
 {
-    public class GCSceneBase
+    public abstract class GCSceneBase
     {
         protected Game MyGame;
         public SpriteBatch spriteBatch { get; }
@@ -63,13 +63,15 @@ namespace Gamecodeur
 
         }
 
-        public virtual void Draw(GameTime gameTime)
+        public virtual void Draw()
         {
             foreach (var sprite in GCSprite.lstSprites)
             {
-                sprite.Draw(gameTime);
+                sprite.Draw();
             }
         }
+
+        public abstract void DrawGUI();
 
     }
 }

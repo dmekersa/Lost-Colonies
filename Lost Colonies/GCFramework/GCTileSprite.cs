@@ -82,7 +82,7 @@ namespace LD36
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw()
         {
             if (this.lastDirection == "left")
             {
@@ -92,7 +92,7 @@ namespace LD36
             {
                 effect = SpriteEffects.None;
             }
-            base.Draw(gameTime);
+            base.Draw();
         }
 
         public void Move(string psDirection)
