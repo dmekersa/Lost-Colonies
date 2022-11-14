@@ -1,7 +1,6 @@
 ﻿using Gamecodeur;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace Lost_Colonies
 {
-    internal class SceneMenu : GCSceneBase
+    internal class SceneTakeOff : GCSceneBase
     {
-        public SceneMenu()
-        {
-        }
+        double Timer;
 
-        public override void Start()
+        public SceneTakeOff()
         {
-            controlManager.Reset();
-            controlManager.SetMethodKey("play", Microsoft.Xna.Framework.Input.Keys.Space);
-            base.Start();
         }
 
         public override void Update(GameTime gameTime)
         {
             controlManager.Update();
 
-            if (controlManager.Pressed("play")) 
-                GCServiceLocator.GetService<GCSceneManager>().StartScene("dashboard");
+            Timer += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (Timer >= 3)
+            {
+                Timer = 0;
+                GCServiceLocator.GetService<GCSceneManager>().StartScene("surface");
+            }
 
             base.Update(gameTime);
         }
@@ -36,12 +35,12 @@ namespace Lost_Colonies
         public override void Draw()
         {
             SpriteFont font = GCServiceLocator.GetService<FontManager>().getFont("fontSmall");
-            spriteBatch.DrawString(font, "Menu - [Space] Dashboard", new Vector2(1, 1), Color.White);
+            spriteBatch.DrawString(font, "Take off... please wait...", new Vector2(1, 1), Color.White);
         }
 
         public override void DrawGUI()
         {
-            
+
         }
     }
 }

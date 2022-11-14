@@ -33,7 +33,7 @@ namespace Gamecodeur
         }
     }
 
-    class GCControlManager
+    public class GCControlManager
     {
         KeyboardState OldKB;
         MouseState OldMS;
@@ -61,6 +61,11 @@ namespace Gamecodeur
         }
 
         public GCControlManager()
+        {
+            Reset();
+        }
+
+        public void Reset()
         {
             ListMethods = new List<ControlMethod>();
             OldGPS = new GamePadState[2];
@@ -139,7 +144,9 @@ namespace Gamecodeur
             {
                 if (cm.Name == pMethodName)
                 {
-                    return cm.isPressed;
+                    bool isPressed = cm.isPressed;
+                    cm.isPressed = false;
+                    return isPressed;
                 }
             }
             return false;

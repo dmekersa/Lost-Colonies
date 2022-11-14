@@ -64,3 +64,16 @@ Episode 3 (31/10/22):
 Générateur de noms de planètes.
 "..LEXEGEZACEBISOUSESARMAINDIREA.ERATENBERALAVETIEDORQUANTEISRION"
 https://github.com/fragglet/txtelite/blob/master/txtelite.c
+
+Episode 4 (7/11/22)
+Générateur de galaxie
+Scene d'affichage de la galaxie avec le sélecteur de planète
+
+Episode 5 (14/11/22)
+Chemin de fer
+
+Episode 6 (21/11/22)
+Création d'un GameState avec le générateur de galaxie
+Migrer le Control Manager au niveau du GameState
+Uniformiser les contrôles (au lieu que chaque scène ait les siens)
+

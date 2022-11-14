@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Gamecodeur
@@ -54,6 +55,10 @@ namespace Gamecodeur
                 scene.Start();
                 CurrentScene = scene;
                 return scene;
+            }
+            else
+            {
+                Debug.Assert(false, "Scene do not exists"); ;
             }
             return null;
         }

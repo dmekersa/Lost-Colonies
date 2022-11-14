@@ -1,7 +1,6 @@
 ﻿using Gamecodeur;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace Lost_Colonies
 {
-    internal class SceneMenu : GCSceneBase
+    internal class SceneWrapUp : GCSceneBase
     {
-        public SceneMenu()
+        public SceneWrapUp()
         {
         }
 
         public override void Start()
         {
             controlManager.Reset();
-            controlManager.SetMethodKey("play", Microsoft.Xna.Framework.Input.Keys.Space);
+            controlManager.SetMethodKey("surface", Microsoft.Xna.Framework.Input.Keys.S);
+            controlManager.SetMethodKey("orbit", Microsoft.Xna.Framework.Input.Keys.O);
             base.Start();
         }
 
@@ -27,8 +27,15 @@ namespace Lost_Colonies
         {
             controlManager.Update();
 
-            if (controlManager.Pressed("play")) 
+            if (controlManager.Pressed("surface"))
+            {
+                GCServiceLocator.GetService<GCSceneManager>().SetProperty("land", "mode", "departure");
+                GCServiceLocator.GetService<GCSceneManager>().StartScene("land");
+            }
+            if (controlManager.Pressed("orbit"))
+            {
                 GCServiceLocator.GetService<GCSceneManager>().StartScene("dashboard");
+            }
 
             base.Update(gameTime);
         }
@@ -36,12 +43,12 @@ namespace Lost_Colonies
         public override void Draw()
         {
             SpriteFont font = GCServiceLocator.GetService<FontManager>().getFont("fontSmall");
-            spriteBatch.DrawString(font, "Menu - [Space] Dashboard", new Vector2(1, 1), Color.White);
+            spriteBatch.DrawString(font, "Wrap up - [S] Back to surface [O] Back to orbit", new Vector2(1, 1), Color.White);
         }
 
         public override void DrawGUI()
         {
-            
+
         }
     }
 }

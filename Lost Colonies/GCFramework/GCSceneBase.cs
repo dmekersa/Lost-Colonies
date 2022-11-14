@@ -13,11 +13,13 @@ namespace Gamecodeur
     public abstract class GCSceneBase
     {
         protected Game MyGame;
+        protected GCControlManager controlManager;
         public SpriteBatch spriteBatch { get; }
         public Dictionary<string, string> Properties { get; }
 
         public GCSceneBase()
         {
+            controlManager = new GCControlManager();
             spriteBatch = GCServiceLocator.GetService<SpriteBatch>();
             Properties = new Dictionary<string, string>();
         }

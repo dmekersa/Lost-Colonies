@@ -10,11 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 public class SceneGalaxy : GCSceneBase
 {
     Galaxy theGalaxy;
-    GCControlManager controlManager;
     Texture2D texSelectMap;
     Vector2 posSelectMap;
     Planet nearestPlanet = null;
@@ -24,15 +22,6 @@ public class SceneGalaxy : GCSceneBase
         // sélecteur de planète
         texSelectMap = GCServiceLocator.GetService<ContentManager>().Load<Texture2D>("selectMap");
         posSelectMap = new Vector2(0, 0);
-
-        controlManager = new GCControlManager();
-        controlManager.SetMethodKey("new", Microsoft.Xna.Framework.Input.Keys.Space);
-
-        controlManager.SetMethodKey("right", Microsoft.Xna.Framework.Input.Keys.Right);
-        controlManager.SetMethodKey("down", Microsoft.Xna.Framework.Input.Keys.Down);
-        controlManager.SetMethodKey("left", Microsoft.Xna.Framework.Input.Keys.Left);
-        controlManager.SetMethodKey("up", Microsoft.Xna.Framework.Input.Keys.Up);
-
 
         Debug.WriteLine("Load Galaxy");
         theGalaxy = new Galaxy();
@@ -46,16 +35,31 @@ public class SceneGalaxy : GCSceneBase
 
     public override void Start()
     {
+        controlManager.Reset();
+        controlManager.SetMethodKey("new", Microsoft.Xna.Framework.Input.Keys.Space);
 
+        controlManager.SetMethodKey("right", Microsoft.Xna.Framework.Input.Keys.Right);
+        controlManager.SetMethodKey("down", Microsoft.Xna.Framework.Input.Keys.Down);
+        controlManager.SetMethodKey("left", Microsoft.Xna.Framework.Input.Keys.Left);
+        controlManager.SetMethodKey("up", Microsoft.Xna.Framework.Input.Keys.Up);
+
+        controlManager.SetMethodKey("back", Microsoft.Xna.Framework.Input.Keys.Escape);
+        controlManager.SetMethodKey("select", Microsoft.Xna.Framework.Input.Keys.Space);
     }
 
     public override void Update(GameTime gameTime)
     {
         controlManager.Update();
 
+        if (controlManager.Pressed("back") || controlManager.Pressed("select"))
+        {
+            GCServiceLocator.GetService<GCSceneManager>().StartScene("dashboard");
+        }
+
         if (controlManager.Pressed("new"))
         {
             theGalaxy.Generate(256, 256 * 2, 256);
+            posSelectMap = new Vector2(0, 0);
         }
 
         bool bStick = true;
