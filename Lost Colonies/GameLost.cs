@@ -11,7 +11,7 @@ namespace Lost_Colonies
         private GraphicsDeviceManager _graphics;
         private GCGame MainGame;
         private SpriteBatch _spriteBatch;
-        static Rectangle CANVAS = new Rectangle(0, 0, 256*2, 300);
+        static Rectangle CANVAS = new Rectangle(0, 0, 480, 272);
         private int ScreenWidth = CANVAS.Width*2;
         private int ScreenHeight = CANVAS.Height*2;
         private RenderTarget2D _renderTarget;
@@ -45,6 +45,7 @@ namespace Lost_Colonies
             // TODO: use this.Content to load your game content here
             MainGame = new GCGame();
 
+            MainGame.SceneManager.AddScene("splash", new SceneSplash());
             MainGame.SceneManager.AddScene("menu", new SceneMenu());
             MainGame.SceneManager.AddScene("galaxy", new SceneGalaxy());
             MainGame.SceneManager.AddScene("dashboard", new SceneDashboard());
@@ -60,7 +61,7 @@ namespace Lost_Colonies
             MainGame.SceneManager.AddScene("test", new SceneTest());
             MainGame.SceneManager.AddScene("planetlist", new ScenePlanetList());
 
-            MainGame.SceneManager.StartScene("menu");
+            MainGame.SceneManager.StartScene("splash");
 
             MainGame.FontManager.AddFont("fontSmall");
             MainGame.FontManager.AddFont("fontMedium");

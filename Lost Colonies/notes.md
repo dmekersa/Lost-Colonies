@@ -50,30 +50,35 @@ Phantom Doctrine
 Shining Force
 
 ---
-Devlog : 
+#Devlog : 
 
-Episode 1 (17/10/22):
+##Episode 1 (17/10/22):
 Debrief, feature list, inspirations
 
-Episode 2 (24/10/22):
+##Episode 2 (24/10/22):
 On a importé et adapté le framework du projet de ma LD36.
 Ajouté un Service Locator.
 Créé 2 scène : menu et test.
 
-Episode 3 (31/10/22):
+##Episode 3 (31/10/22):
 Générateur de noms de planètes.
 "..LEXEGEZACEBISOUSESARMAINDIREA.ERATENBERALAVETIEDORQUANTEISRION"
 https://github.com/fragglet/txtelite/blob/master/txtelite.c
 
-Episode 4 (7/11/22)
+##Episode 4 (7/11/22)
 Générateur de galaxie
 Scene d'affichage de la galaxie avec le sélecteur de planète
 
-Episode 5 (14/11/22)
+##Episode 5 (14/11/22)
 Chemin de fer
 
-Episode 6 (21/11/22)
-Création d'un GameState avec le générateur de galaxie
+##Episode 6 (21/11/22)
 Migrer le Control Manager au niveau du GameState
+Splash Screen
+Menu et musique (affichage synchro avec la musique)
+
+##TODO
+Cinématique de sortie du vaisseau mère
+Création d'un GameState avec le générateur de galaxie
 Uniformiser les contrôles (au lieu que chaque scène ait les siens)
 
