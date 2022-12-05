@@ -32,7 +32,9 @@ namespace Gamecodeur
         protected Vector2 Velocity;
         public bool isVisible { get; set; }
         public bool isCentered { get; set; }
+        public bool isPixel { get; set; }
         public float zoom { get; set; }
+        public float alpha { get; set; }
         public float rotation { get; set; }
         public Dictionary<string, string> properties { get; }
         public SpriteBatch spriteBatch { get; }
@@ -46,23 +48,39 @@ namespace Gamecodeur
         public float speed { get; set; }
         private float time;
 
-        static public List<GCSprite> lstSprites = new List<GCSprite>();
+        //static public List<GCSprite> lstSprites = new List<GCSprite>();
 
-        public GCSprite(SpriteBatch pSpriteBatch, Texture2D pTexture, int pLargeurFrame, int pHauteurFrame)
+        public GCSprite(SpriteBatch pSpriteBatch, Texture2D pTexture, int pLargeurFrame = 0, int pHauteurFrame = 0)
         {
             spriteBatch = pSpriteBatch;
             texture = pTexture;
             isVisible = true;
             isCentered = true;
             frame = 0;
-            largeurFrame = pLargeurFrame;
-            hauteurFrame = pHauteurFrame;
+            if (pLargeurFrame == 0)
+            {
+                largeurFrame = pTexture.Width;
+                hauteurFrame = pTexture.Height;
+            }
+            else
+            {
+                largeurFrame = pLargeurFrame;
+                hauteurFrame = pHauteurFrame;
+            }
             zoom = 1.0f;
             speed = 60.0f;
+            alpha = 1.0f;
             effect = SpriteEffects.None;
             animations = new List<GCSAnimation>();
-            lstSprites.Add(this);
+            //lstSprites.Add(this);
             properties = new Dictionary<string, string>();
+        }
+
+        public void reset()
+        {
+            frame = 0;
+            zoom = 1.0f;
+            alpha = 1.0f;
         }
 
         public string getProperty(string pName)
@@ -131,17 +149,30 @@ namespace Gamecodeur
         public virtual void Draw()
         {
             if (!isVisible) return;
+            Vector2 position;
+            
+            if (isPixel)
+                position = new Vector2((int)x, (int)y);
+            else
+                position = new Vector2(x, y);
+            Vector2 origine = new Vector2(0, 0);
+            Rectangle source;
 
-            Rectangle source = new Rectangle(animationCourante.frames[frame] * largeurFrame, 0, largeurFrame, hauteurFrame);
-            Vector2 origine = new Vector2(0,0);
-
-            if (isCentered)
+            if (animationCourante == null)
             {
-                origine = new Vector2(largeurFrame / 2, hauteurFrame / 2);
+                spriteBatch.Draw(texture, position, null, Color.White * alpha, rotation, origine, zoom, effect, 0.0f);
             }
-            Vector2 position = new Vector2(x, y);
+            else
+            {
+                source = new Rectangle(animationCourante.frames[frame] * largeurFrame, 0, largeurFrame, hauteurFrame);
 
-            spriteBatch.Draw(texture, position, source, Color.White, rotation, origine, zoom, effect, 0.0f);
+                if (isCentered)
+                {
+                    origine = new Vector2(largeurFrame / 2, hauteurFrame / 2);
+                }
+                spriteBatch.Draw(texture, position, source, Color.White * alpha, rotation, origine, zoom, effect, 0.0f);
+
+            }
         }
     }
 }

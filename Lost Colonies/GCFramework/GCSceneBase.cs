@@ -69,10 +69,7 @@ namespace Gamecodeur
 
         public virtual void Draw()
         {
-            foreach (var sprite in GCSprite.lstSprites)
-            {
-                sprite.Draw();
-            }
+
         }
 
         public abstract void DrawGUI();

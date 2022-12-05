@@ -77,8 +77,14 @@ Migrer le Control Manager au niveau du GameState
 Splash Screen
 Menu et musique (affichage synchro avec la musique)
 
-##TODO
+##Episode 7 (28/11/22)
 Cinématique de sortie du vaisseau mère
 Création d'un GameState avec le générateur de galaxie
 Uniformiser les contrôles (au lieu que chaque scène ait les siens)
+
+##Episode 8 (05/12/22)
+AssetManager
+
+##Episode 9 (12/12/22)
+Tweening
 

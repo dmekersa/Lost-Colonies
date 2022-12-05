@@ -15,6 +15,7 @@ namespace Lost_Colonies
         private int ScreenWidth = CANVAS.Width*2;
         private int ScreenHeight = CANVAS.Height*2;
         private RenderTarget2D _renderTarget;
+        private GCAssetManager _assetManager;
 
         public GameLost()
         {
@@ -23,6 +24,10 @@ namespace Lost_Colonies
             IsMouseVisible = true;
 
             GCServiceLocator.RegisterService<ContentManager>(Content);
+
+            _assetManager = new GCAssetManager();
+            GCServiceLocator.RegisterService<GCAssetManager>(_assetManager);
+
         }
 
         protected override void Initialize()
@@ -40,7 +45,6 @@ namespace Lost_Colonies
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             GCServiceLocator.RegisterService<SpriteBatch>(_spriteBatch);
             GCServiceLocator.RegisterService<GraphicsDevice>(GraphicsDevice);
-
 
             // TODO: use this.Content to load your game content here
             MainGame = new GCGame();

@@ -24,9 +24,15 @@ namespace Lost_Colonies
 
         public SceneMenu()
         {
+        }
+
+        public override void Load()
+        {
             texBG = contentManager.Load<Texture2D>("menu/startBG");
             texLogo = contentManager.Load<Texture2D>("menu/start-logo-baseline");
             music = contentManager.Load<Song>("snd/menu");
+
+            base.Load();
         }
 
         public override void Start()
@@ -73,8 +79,11 @@ namespace Lost_Colonies
                 }
             }
 
-            if (controlManager.Pressed("play")) 
+            if (controlManager.Pressed("play"))
+            {
                 GCServiceLocator.GetService<GCSceneManager>().StartScene("dashboard");
+                MediaPlayer.Stop();
+            }
 
             base.Update(gameTime);
         }

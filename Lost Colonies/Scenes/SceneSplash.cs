@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,18 @@ namespace Lost_Colonies
         Single alpha;
         float speed = -0.007f;
         float zoom = 0;
-
+        GCAssetManager assetManager;
 
         public SceneSplash()
         {
+        }
+
+        public override void Load()
+        {
             texBlack = contentManager.Load<Texture2D>("whiteBG");
             texSplash = contentManager.Load<Texture2D>("SplashBG");
+
+            base.Load();
         }
 
         public override void Start()
@@ -33,6 +40,13 @@ namespace Lost_Colonies
 
             controlManager.Reset();
             controlManager.SetMethodKey("skip", Microsoft.Xna.Framework.Input.Keys.Space);
+
+            assetManager = GCServiceLocator.GetService<GCAssetManager>();
+
+            string[] fileEntries = Directory.GetFiles("Content/gfx");
+
+            assetManager.PreLoad(fileEntries);
+
             base.Start();
         }
 
@@ -46,7 +60,13 @@ namespace Lost_Colonies
             if ((speed<0 && alpha > 0) || (speed > 0 && alpha < 1))
                 alpha += speed;
 
-            if (alpha>1f)
+            assetManager.NextPreload();
+            if (!assetManager.PreloadDone())
+            {
+                Debug.WriteLine("pas terminé");
+            }
+
+            if (alpha>1f && assetManager.PreloadDone())
             {
                 alpha = 1;
                 GCServiceLocator.GetService<GCSceneManager>().StartScene("menu");
@@ -58,9 +78,7 @@ namespace Lost_Colonies
                 alpha = 0;
             }
 
-            Debug.WriteLine(alpha);
-
-            if (controlManager.Pressed("skip"))
+            if (controlManager.Pressed("skip") && assetManager.PreloadDone())
                 GCServiceLocator.GetService<GCSceneManager>().StartScene("menu");
 
             base.Update(gameTime);
