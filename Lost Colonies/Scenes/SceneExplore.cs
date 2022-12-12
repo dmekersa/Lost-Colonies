@@ -3,11 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lost_Colonies
 {
@@ -24,7 +19,11 @@ namespace Lost_Colonies
         GCSprite spExplorer;
         SoundEffect sfxFlight;
         SoundEffectInstance sfxFlightI;
-        enum eExplorer {
+        Tween twExplorerX = new Tween();
+        Tween twExplorerY = new Tween();
+        Tween twExplorerZ = new Tween();
+        enum eExplorer
+        {
             down,
             go
         }
@@ -62,46 +61,53 @@ namespace Lost_Colonies
             sfxFlightI.Play();
             spShip.x = 26;
             spShip.y = 51;
-            spExplorer.x = 110+25;
+            spExplorer.x = 110 + 25;
             spExplorer.y = 90;
             spExplorer.reset();
             shipState = eExplorer.down;
             Timer = 0;
+
+            twExplorerX.Start(spExplorer.x, spExplorer.x + 30, 2, Tween.easeType.SinOut);
+            twExplorerY.Start(spExplorer.y, spExplorer.y + 50, 2, Tween.easeType.SinOut);
         }
 
         public override void Update(GameTime gameTime)
         {
             controlManager.Update();
 
-            Timer += gameTime.ElapsedGameTime.TotalSeconds;
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Timer += dt;
 
-            if (Timer>=6)
+            if (Timer >= 6)
             {
                 Timer = 0;
                 sfxFlightI.Stop();
                 GCServiceLocator.GetService<GCSceneManager>().StartScene("surface");
             }
 
-            if (Timer >= 2 && shipState != eExplorer.go)
+            if (shipState == eExplorer.down && twExplorerX.ended)
             {
                 shipState = eExplorer.go;
+                twExplorerX.Start(spExplorer.x, spExplorer.x + 400, 2, Tween.easeType.Cube);
+                twExplorerZ.Start(1, 0.1f, 2, Tween.easeType.Cube);
             }
 
-            spPlanet.x -= (50f/6f)/60f;
+            spPlanet.x -= (50f / 6f) / 60f;
             spShip.x += (30f / 6f) / 60f;
             spShip.y += (10f / 6f) / 60f;
 
 
             if (shipState == eExplorer.down)
             {
-                spExplorer.x += (30f / 2f) / 60f;
-                spExplorer.y += (50f / 2f) / 60f;
+                twExplorerX.Update(dt, ref spExplorer.x);
+                twExplorerY.Update(dt, ref spExplorer.y);
             }
             else if (shipState == eExplorer.go)
             {
-                spExplorer.x += (500f / 2f) / 60f;
-                spExplorer.zoom -= (0.99f / 2f) / 60f;
-                spExplorer.alpha -= 0.015f;
+                twExplorerX.Update(dt, ref spExplorer.x);
+                spExplorer.alpha -= 0.005f;
+                //spExplorer.zoom -= (0.99f / 4f) / 60f;
+                twExplorerZ.Update(dt, ref spExplorer.zoom);
             }
 
             base.Update(gameTime);

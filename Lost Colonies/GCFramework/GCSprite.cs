@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gamecodeur
 {
@@ -16,7 +13,7 @@ namespace Gamecodeur
         public float dureeFrame { get; private set; }
         public bool isLoop { get; set; }
         public bool isFinished { get; set; }
-        public GCSAnimation(string pName, int[] pFrames, float pTime = 1f/12f, bool pisLoop = true)
+        public GCSAnimation(string pName, int[] pFrames, float pTime = 1f / 12f, bool pisLoop = true)
         {
             name = pName;
             frames = pFrames;
@@ -27,14 +24,14 @@ namespace Gamecodeur
     }
     class GCSprite
     {
-        public float x { get; set; }
-        public float y { get; set; }
+        public float x;
+        public float y;
         protected Vector2 Velocity;
         public bool isVisible { get; set; }
         public bool isCentered { get; set; }
         public bool isPixel { get; set; }
-        public float zoom { get; set; }
-        public float alpha { get; set; }
+        public float zoom;
+        public float alpha;
         public float rotation { get; set; }
         public Dictionary<string, string> properties { get; }
         public SpriteBatch spriteBatch { get; }
@@ -150,7 +147,7 @@ namespace Gamecodeur
         {
             if (!isVisible) return;
             Vector2 position;
-            
+
             if (isPixel)
                 position = new Vector2((int)x, (int)y);
             else

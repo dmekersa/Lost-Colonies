@@ -36,7 +36,7 @@ Dungeon of the Endless
 
 Tour par tour
 =============
-Rogue's Tale
+** Rogue's Tale
 Cogmind
 Fallout Classic
 XCOM
@@ -48,6 +48,7 @@ Jagged Alliance
 Phoenix point
 Phantom Doctrine
 Shining Force
+** https://archrebel.blogspot.com/ (fantastique effet de grenade)
 
 ---
 #Devlog : 
