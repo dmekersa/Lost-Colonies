@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Lost_Colonies
 {
@@ -12,8 +11,8 @@ namespace Lost_Colonies
         private GCGame MainGame;
         private SpriteBatch _spriteBatch;
         static Rectangle CANVAS = new Rectangle(0, 0, 480, 272);
-        private int ScreenWidth = CANVAS.Width*2;
-        private int ScreenHeight = CANVAS.Height*2;
+        private int ScreenWidth = CANVAS.Width * 2;
+        private int ScreenHeight = CANVAS.Height * 2;
         private RenderTarget2D _renderTarget;
         private GCAssetManager _assetManager;
 
@@ -26,7 +25,7 @@ namespace Lost_Colonies
             GCServiceLocator.RegisterService<ContentManager>(Content);
 
             _assetManager = new GCAssetManager();
-            GCServiceLocator.RegisterService<GCAssetManager>(_assetManager);
+            GCServiceLocator.RegisterService(_assetManager);
 
         }
 
@@ -43,8 +42,8 @@ namespace Lost_Colonies
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            GCServiceLocator.RegisterService<SpriteBatch>(_spriteBatch);
-            GCServiceLocator.RegisterService<GraphicsDevice>(GraphicsDevice);
+            GCServiceLocator.RegisterService(_spriteBatch);
+            GCServiceLocator.RegisterService(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
             MainGame = new GCGame();
@@ -77,8 +76,8 @@ namespace Lost_Colonies
 
         protected override void Update(GameTime gameTime)
         {
-//            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-//                Exit();
+            //            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //                Exit();
 
             // TODO: Add your update logic here
             MainGame.SceneManager.Update(gameTime);

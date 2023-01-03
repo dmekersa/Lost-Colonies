@@ -56,6 +56,8 @@ namespace Lost_Colonies
 
         public override void Start()
         {
+            controlManager.SetMethodKey("play", Microsoft.Xna.Framework.Input.Keys.Space);
+
             spPlanet.x = spOrbit.largeurFrame - spPlanet.largeurFrame + 50;
             spPlanet.y = 0;
             sfxFlightI.Play();
@@ -78,7 +80,7 @@ namespace Lost_Colonies
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Timer += dt;
 
-            if (Timer >= 6)
+            if (Timer >= 6 || controlManager.Pressed("play"))
             {
                 Timer = 0;
                 sfxFlightI.Stop();

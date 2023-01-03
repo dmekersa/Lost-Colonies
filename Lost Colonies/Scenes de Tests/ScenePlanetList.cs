@@ -2,13 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Lost_Colonies
 {
@@ -37,9 +31,9 @@ namespace Lost_Colonies
         public override void Update(GameTime gameTime)
         {
             MouseState ms = Mouse.GetState();
-            int newScrollValue = ms.ScrollWheelValue/120;
+            int newScrollValue = ms.ScrollWheelValue / 120;
             int offset = newScrollValue - startScrollValue;
-            if (offset>0)
+            if (offset > 0)
                 first = offset;
             else
             {
@@ -64,7 +58,7 @@ namespace Lost_Colonies
             for (int i = first; i < last; i++)
             {
                 string name = testNames[i];
-                spriteBatch.DrawString(font,name, new Vector2(1, y), Color.White);
+                spriteBatch.DrawString(font, name, new Vector2(1, y), Color.White);
                 y += 18;
             }
 
@@ -73,7 +67,7 @@ namespace Lost_Colonies
 
         public override void DrawGUI()
         {
-            
+
         }
     }
 }

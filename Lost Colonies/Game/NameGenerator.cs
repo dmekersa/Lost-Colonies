@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lost_Colonies
 {
@@ -14,14 +10,14 @@ namespace Lost_Colonies
 
         public NameGenerator()
         {
-            
+
         }
 
         private string GenPlanetName(Random pRnd)
         {
             string name = "";
 
-            int nbPairs = PAIRS.Length/2;
+            int nbPairs = PAIRS.Length / 2;
 
             for (int n = 0; n < 4; n++)
             {
@@ -43,7 +39,7 @@ namespace Lost_Colonies
             string name = "";
             rnd = new Random(pSeed);
 
-            while (name.Length<2)
+            while (name.Length < 2)
             {
                 name = GenPlanetName(rnd);
                 if (name.Length < 2)

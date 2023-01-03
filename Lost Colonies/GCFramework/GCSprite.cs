@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace Gamecodeur
         public List<GCSAnimation> animations;
         public GCSAnimation animationCourante;
         protected SpriteEffects effect;
-        public int frame { get; private set; }
+        public int frame { get; set; }
         public int largeurFrame { get; private set; }
         public int hauteurFrame { get; private set; }
         public float speed { get; set; }
@@ -53,7 +54,6 @@ namespace Gamecodeur
             texture = pTexture;
             isVisible = true;
             isCentered = true;
-            frame = 0;
             if (pLargeurFrame == 0)
             {
                 largeurFrame = pTexture.Width;
@@ -64,18 +64,17 @@ namespace Gamecodeur
                 largeurFrame = pLargeurFrame;
                 hauteurFrame = pHauteurFrame;
             }
-            zoom = 1.0f;
             speed = 60.0f;
-            alpha = 1.0f;
             effect = SpriteEffects.None;
             animations = new List<GCSAnimation>();
             //lstSprites.Add(this);
             properties = new Dictionary<string, string>();
+            reset();
         }
 
         public void reset()
         {
-            frame = 0;
+            frame = -1;
             zoom = 1.0f;
             alpha = 1.0f;
         }
@@ -155,13 +154,35 @@ namespace Gamecodeur
             Vector2 origine = new Vector2(0, 0);
             Rectangle source;
 
-            if (animationCourante == null)
+            if (animationCourante == null && frame == -1)
             {
                 spriteBatch.Draw(texture, position, null, Color.White * alpha, rotation, origine, zoom, effect, 0.0f);
             }
             else
             {
-                source = new Rectangle(animationCourante.frames[frame] * largeurFrame, 0, largeurFrame, hauteurFrame);
+                int texW = texture.Width / largeurFrame;
+                int texH = texture.Height / hauteurFrame;
+
+                int f = 0;
+
+                if (animationCourante != null)
+                {
+                    f = animationCourante.frames[frame];
+                }
+                else
+                {
+                    f = frame;
+                }
+
+                int line = (int)Math.Floor((double)(f / texW));
+                int col = f - (line * texW);
+
+                source = new Rectangle();
+                source.X = col * largeurFrame;
+                source.Y = line * hauteurFrame;
+                source.Width = largeurFrame;
+                source.Height = hauteurFrame;
+
 
                 if (isCentered)
                 {

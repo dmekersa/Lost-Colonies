@@ -89,3 +89,10 @@ AssetManager
 ##Episode 9 (12/12/22)
 Tweening
 
+##Episode 10 (02/01/23)
+Roguelike : on commence
+Création d'une classe SurfaceMap pour représenter une surface de planète et affichage de cette surface dans la scène SceneSurface avec un tileset maison exporté de TIC-80.
+
+##Episode 11 (09/01/23)
+Surface : déplacement à la surface de la planète (débat : façon Starcraft ou pas)
+
