@@ -97,4 +97,10 @@ Création d'une classe SurfaceMap pour représenter une surface de planète et a
 Surface : déplacement à la surface de la planète (débat : façon Starcraft ou pas)
 - Mettre en place un offset
 - Scroll par les bords, comme dans un RTS
+
+##Episode 12 (16/01/23)
+Surface
 - Matérialiser un vaisseau
+- Brouillard
+- Clic = le vaisseau rejoint la case cliquée
+- Placer une base
