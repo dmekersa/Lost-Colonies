@@ -10,9 +10,9 @@ namespace Lost_Colonies
         private GraphicsDeviceManager _graphics;
         private GCGame MainGame;
         private SpriteBatch _spriteBatch;
-        static Rectangle CANVAS = new Rectangle(0, 0, 480, 272);
-        private int ScreenWidth = CANVAS.Width * 2;
-        private int ScreenHeight = CANVAS.Height * 2;
+        private Rectangle ViewPort = new Rectangle(0, 0, 480, 272);
+        private int ScreenWidth;
+        private int ScreenHeight;
         private RenderTarget2D _renderTarget;
         private GCAssetManager _assetManager;
 
@@ -21,6 +21,9 @@ namespace Lost_Colonies
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            ScreenWidth = ViewPort.Width * 2;
+            ScreenHeight = ViewPort.Height * 2;
 
             GCServiceLocator.RegisterService<ContentManager>(Content);
 
@@ -35,6 +38,10 @@ namespace Lost_Colonies
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.ApplyChanges();
+
+
+            GCScreenInfo screenInfo = new GCScreenInfo(_graphics, ViewPort);
+            GCServiceLocator.RegisterService<GCScreenInfo>(screenInfo);
 
             base.Initialize();
         }
@@ -71,7 +78,7 @@ namespace Lost_Colonies
             MainGame.FontManager.AddFont("fontBig");
 
             // Génération de notre canvas
-            _renderTarget = new RenderTarget2D(GraphicsDevice, CANVAS.Width, CANVAS.Height);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, ViewPort.Width, ViewPort.Height);
         }
 
         protected override void Update(GameTime gameTime)

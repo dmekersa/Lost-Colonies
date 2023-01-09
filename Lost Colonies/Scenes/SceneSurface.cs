@@ -1,6 +1,8 @@
 ﻿using Gamecodeur;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Lost_Colonies
 {
@@ -8,6 +10,8 @@ namespace Lost_Colonies
     {
         SurfaceMap surface = new SurfaceMap();
         GCSprite dummySprite;
+        const float CAMSPEED = 1f;
+        Vector2 Camera;
 
         public SceneSurface()
         {
@@ -15,6 +19,8 @@ namespace Lost_Colonies
             dummySprite = new GCSprite(GCServiceLocator.GetService<SpriteBatch>(), texTileset.texture, 16, 16);
             dummySprite.isCentered = false;
             dummySprite.frame = 0;
+
+            Camera = new Vector2(0, 0);
         }
 
         public override void Start()
@@ -28,6 +34,27 @@ namespace Lost_Colonies
         public override void Update(GameTime gameTime)
         {
             controlManager.Update();
+
+            GCScreenInfo screenInfo = GCServiceLocator.GetService<GCScreenInfo>();
+
+            MouseState ms = Mouse.GetState();
+
+            if (ms.X > screenInfo.GetScreenSize().X - 5 && Math.Abs(Camera.X) < (SurfaceMap.MAPW * dummySprite.largeurFrame) - screenInfo.GetViewPort().X)
+            {
+                Camera.X -= CAMSPEED;
+            }
+            if (ms.X < 5 && Camera.X < 0)
+            {
+                Camera.X += CAMSPEED;
+            }
+            if (ms.Y > screenInfo.GetScreenSize().Y - 5 && Math.Abs(Camera.Y) < (SurfaceMap.MAPH * dummySprite.hauteurFrame) - screenInfo.GetViewPort().Y)
+            {
+                Camera.Y -= CAMSPEED;
+            }
+            if (ms.Y < 5 && Camera.Y < 0)
+            {
+                Camera.Y += CAMSPEED;
+            }
 
             if (controlManager.Pressed("land"))
             {
@@ -46,8 +73,8 @@ namespace Lost_Colonies
                 for (int c = 0; c < SurfaceMap.MAPW; c++)
                 {
                     dummySprite.frame = surface.Map[l, c];
-                    dummySprite.x = c * 16;
-                    dummySprite.y = l * 16;
+                    dummySprite.x = (c * 16) + Camera.X;
+                    dummySprite.y = l * 16 + Camera.Y;
                     dummySprite.Draw();
                 }
 

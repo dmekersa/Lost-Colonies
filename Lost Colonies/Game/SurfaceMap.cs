@@ -5,8 +5,8 @@ namespace Lost_Colonies
     public class SurfaceMap
     {
         public int[,] Map;
-        public const int MAPW = 512;
-        public const int MAPH = 512;
+        public const int MAPW = 128;
+        public const int MAPH = 128;
         Random rnd = new Random();
 
         public SurfaceMap()
