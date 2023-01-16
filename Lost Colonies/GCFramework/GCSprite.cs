@@ -23,10 +23,8 @@ namespace Gamecodeur
             isFinished = false;
         }
     }
-    class GCSprite
+    class GCSprite : GCGameObject
     {
-        public float x;
-        public float y;
         protected Vector2 Velocity;
         public bool isVisible { get; set; }
         public bool isCentered { get; set; }
@@ -35,7 +33,6 @@ namespace Gamecodeur
         public float alpha;
         public float rotation { get; set; }
         public Dictionary<string, string> properties { get; }
-        public SpriteBatch spriteBatch { get; }
         public Texture2D texture { get; }
         public List<GCSAnimation> animations;
         public GCSAnimation animationCourante;
@@ -48,7 +45,7 @@ namespace Gamecodeur
 
         //static public List<GCSprite> lstSprites = new List<GCSprite>();
 
-        public GCSprite(SpriteBatch pSpriteBatch, Texture2D pTexture, int pLargeurFrame = 0, int pHauteurFrame = 0)
+        public GCSprite(SpriteBatch pSpriteBatch, Texture2D pTexture, int pLargeurFrame = 0, int pHauteurFrame = 0) : base()
         {
             spriteBatch = pSpriteBatch;
             texture = pTexture;
@@ -111,7 +108,7 @@ namespace Gamecodeur
             Debug.Assert(animationCourante != null, "LanceAnimation : Aucune animation trouvée");
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             this.x += this.Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
             this.y += this.Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -142,7 +139,7 @@ namespace Gamecodeur
             }
         }
 
-        public virtual void Draw()
+        public override void Draw()
         {
             if (!isVisible) return;
             Vector2 position;

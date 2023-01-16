@@ -6,6 +6,8 @@ namespace Gamecodeur
     {
         private GraphicsDeviceManager _graphics;
         private Rectangle _viewPort;
+        public float RatioX { get { return _graphics.PreferredBackBufferWidth / _viewPort.Width; } }
+        public float RatioY { get { return _graphics.PreferredBackBufferHeight / _viewPort.Height; } }
 
         public GCScreenInfo(GraphicsDeviceManager pGraphics, Rectangle pViewPort)
         {

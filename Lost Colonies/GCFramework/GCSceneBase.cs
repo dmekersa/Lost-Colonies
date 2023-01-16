@@ -1,28 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LD36;
 
 namespace Gamecodeur
 {
-    public abstract class GCSceneBase
+    public abstract class GCSceneBase : GCGameObject
     {
         protected Game MyGame;
         protected ContentManager contentManager;
         protected GCControlManager controlManager;
-        protected SpriteBatch spriteBatch { get; }
         public Dictionary<string, string> Properties { get; }
 
-        public GCSceneBase()
+        public GCSceneBase() : base()
         {
             contentManager = GCServiceLocator.GetService<ContentManager>();
             controlManager = GCServiceLocator.GetService<GCControlManager>();
-            spriteBatch = GCServiceLocator.GetService<SpriteBatch>();
             Properties = new Dictionary<string, string>();
         }
 
@@ -62,12 +54,12 @@ namespace Gamecodeur
 
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
 
         }
 
-        public virtual void Draw()
+        public override void Draw()
         {
 
         }

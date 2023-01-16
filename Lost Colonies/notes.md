@@ -101,6 +101,9 @@ Surface : déplacement à la surface de la planète (débat : façon Starcraft o
 ##Episode 12 (16/01/23)
 Surface
 - Matérialiser un vaisseau
-- Brouillard
 - Clic = le vaisseau rejoint la case cliquée
+
+##Episode 13 (23/01/23)
+- Curseur sur la map qui clignotte
+- Brouillard
 - Placer une base
