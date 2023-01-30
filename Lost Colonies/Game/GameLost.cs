@@ -99,7 +99,7 @@ namespace Lost_Colonies
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             MainGame.SceneManager.Draw();
 

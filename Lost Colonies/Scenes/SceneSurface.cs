@@ -13,12 +13,15 @@ namespace Lost_Colonies
             _exploration = new Exploration();
         }
 
-        public override void Start()
+        public override void Focus()
         {
             controlManager.Reset();
             controlManager.SetMethodKey("land", Microsoft.Xna.Framework.Input.Keys.L);
             controlManager.SetMethodKey("orbit", Microsoft.Xna.Framework.Input.Keys.O);
-            base.Start();
+
+            _exploration.Reset();
+
+            base.Focus();
         }
 
         public override void Update(GameTime gameTime)

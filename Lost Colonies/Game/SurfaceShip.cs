@@ -10,6 +10,7 @@ namespace Lost_Colonies
         public Vector2 MapPosition;
         public Vector2 MapDestination;
         public Vector2 Camera;
+        public bool isArrived;
 
         public SurfaceShip(SpriteBatch pSpriteBatch, Texture2D pTexture, int pLargeurFrame = 0, int pHauteurFrame = 0) : base(pSpriteBatch, pTexture, pLargeurFrame, pHauteurFrame)
         {
@@ -30,6 +31,7 @@ namespace Lost_Colonies
 
             if (MapPosition != MapDestination)
             {
+                isArrived = false;
                 float angle = (float)Utils.GetAngle(MapPosition, MapDestination);
                 rotation = angle;
 
@@ -46,6 +48,10 @@ namespace Lost_Colonies
                     MapPosition.X = MapDestination.X;
                     MapPosition.Y = MapDestination.Y;
                 }
+            }
+            else
+            {
+                isArrived = true;
             }
 
             base.Update(gameTime);

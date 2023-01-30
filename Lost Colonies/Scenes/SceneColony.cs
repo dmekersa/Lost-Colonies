@@ -15,11 +15,11 @@ namespace Lost_Colonies
         {
         }
 
-        public override void Start()
+        public override void Focus()
         {
             controlManager.Reset();
             controlManager.SetMethodKey("out", Microsoft.Xna.Framework.Input.Keys.O);
-            base.Start();
+            base.Focus();
         }
 
         public override void Update(GameTime gameTime)

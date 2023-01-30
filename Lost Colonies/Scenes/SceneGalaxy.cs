@@ -33,7 +33,7 @@ public class SceneGalaxy : GCSceneBase
 
     }
 
-    public override void Start()
+    public override void Focus()
     {
         controlManager.Reset();
         controlManager.SetMethodKey("new", Microsoft.Xna.Framework.Input.Keys.Space);

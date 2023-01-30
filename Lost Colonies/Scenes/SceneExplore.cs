@@ -54,7 +54,7 @@ namespace Lost_Colonies
             base.Load();
         }
 
-        public override void Start()
+        public override void Focus()
         {
             controlManager.SetMethodKey("play", Microsoft.Xna.Framework.Input.Keys.Space);
 

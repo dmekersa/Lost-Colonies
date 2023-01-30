@@ -105,5 +105,10 @@ Surface
 
 ##Episode 13 (23/01/23)
 - Curseur sur la map qui clignotte
-- Brouillard
+
+##Episode 14 (30/01/23)
+- Brouillard de guerre (fog of war)
+
+##Episode 15 (06/02/23)
+- Precalculer la surface de toutes les planêtes
 - Placer une base

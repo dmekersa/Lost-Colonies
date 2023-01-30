@@ -9,108 +9,127 @@ namespace Lost_Colonies
     {
         private SurfaceShip _surfaceShip;
 
-        private SurfaceMap surface = new SurfaceMap();
+        private SurfaceMap _surface = new SurfaceMap();
 
-        GCSprite dummySprite;
-        const float CAMSPEED = 2f;
-        Vector2 Camera;
+        private GCSprite _sprTiles;
+        private GCSprite _sprDestination;
 
-        MouseState oldms;
+        private const float _CAMSPEED = 2f;
+        private Vector2 _Camera;
+
+        private MouseState _oldms;
+
+        private Point _mapDestination;
+
+        private GCTimer _timerBlink;
+        private bool _bDestinationVisible;
+
+        private GCScreenInfo _screenInfo;
 
         public Exploration()
         {
-            GCScreenInfo screenInfo = GCServiceLocator.GetService<GCScreenInfo>();
+            _screenInfo = GCServiceLocator.GetService<GCScreenInfo>();
 
             GCTexture texTileset = new GCTexture("gfx/tiles");
-            dummySprite = new GCSprite(spriteBatch, texTileset.texture, 16, 16);
-            dummySprite.isCentered = false;
-            dummySprite.frame = 0;
+            _sprTiles = new GCSprite(spriteBatch, texTileset.texture, 16, 16);
+            _sprTiles.isCentered = false;
+            _sprTiles.frame = 0;
 
             _surfaceShip = new SurfaceShip(spriteBatch, texTileset.texture, 16, 16);
             _surfaceShip.isCentered = true;
             _surfaceShip.frame = 2;
-            //_surfaceShip.MapPosition.X = (float)Math.Floor(SurfaceMap.MAPW / 2.0) * 16;
-            //_surfaceShip.MapPosition.Y = (float)Math.Floor(SurfaceMap.MAPH / 2.0) * 16;
 
-            //Camera = new Vector2(-_surfaceShip.MapPosition.X, -_surfaceShip.MapPosition.Y);
-            Camera = new Vector2();
+            _sprDestination = new GCSprite(spriteBatch, texTileset.texture, 16, 16);
+            _sprDestination.isCentered = false;
+            _sprDestination.frame = 3;
 
-            //Camera.X += screenInfo.GetViewPort().X / 2;
-            //Camera.Y += screenInfo.GetViewPort().Y / 2;
+            _Camera = new Vector2();
 
+            _timerBlink = new GCTimer(0.2f);
+        }
+
+        public void Reset()
+        {
+            _surfaceShip.Position = new Vector2(_surfaceShip.largeurFrame, _surfaceShip.hauteurFrame);
+
+            _mapDestination = new Point(-1, -1);
+
+            _bDestinationVisible = true;
         }
 
         public override void Update(GameTime gameTime)
         {
-
-            GCScreenInfo screenInfo = GCServiceLocator.GetService<GCScreenInfo>();
-
             MouseState ms = Mouse.GetState();
-            Vector2 msPos = new Vector2(ms.X / screenInfo.RatioX, ms.Y / screenInfo.RatioY);
+            Vector2 msPos = new Vector2(ms.X / _screenInfo.RatioX, ms.Y / _screenInfo.RatioY);
 
-            if (ms.LeftButton == ButtonState.Pressed && oldms.LeftButton == ButtonState.Released)
+            if (ms.LeftButton == ButtonState.Pressed && _oldms.LeftButton == ButtonState.Released)
             {
-                int col = (int)(msPos.X - Camera.X) / 16;
-                int row = (int)(msPos.Y - Camera.Y) / 16;
+                _mapDestination.X = (int)(msPos.X - _Camera.X) / 16;
+                _mapDestination.Y = (int)(msPos.Y - _Camera.Y) / 16;
 
-                _surfaceShip.MapDestination.X = (col * 16) + 16 / 2;
-                _surfaceShip.MapDestination.Y = (row * 16) + 16 / 2;
+                _surfaceShip.MapDestination.X = (_mapDestination.X * 16) + 16 / 2;
+                _surfaceShip.MapDestination.Y = (_mapDestination.Y * 16) + 16 / 2;
             }
 
-            float distX = (screenInfo.GetViewPort().X / 2) - _surfaceShip.x;
-            float distY = (screenInfo.GetViewPort().Y / 2) - _surfaceShip.y;
+            float distX = (_screenInfo.GetViewPort().X / 2) - _surfaceShip.x;
+            float distY = (_screenInfo.GetViewPort().Y / 2) - _surfaceShip.y;
 
-            float angle = (float)Utils.GetAngle(Camera, new Vector2(Camera.X + distX, Camera.Y + distY));
+            float angle = (float)Utils.GetAngle(_Camera, new Vector2(_Camera.X + distX, _Camera.Y + distY));
 
-            float dist = (float)Utils.GetDistance(Camera, new Vector2(Camera.X + distX, Camera.Y + distY));
+            //float dist = (float)Utils.GetDistance(Camera, new Vector2(Camera.X + distX, Camera.Y + distY));
 
             float vx = 1f * (float)Math.Cos(angle);
             float vy = 1f * (float)Math.Sin(angle);
 
+            /*
             if (Math.Abs(dist) > 5)
             {
-                if (vx < 0 && Math.Abs(Camera.X) < (SurfaceMap.MAPW * dummySprite.largeurFrame) - screenInfo.GetViewPort().X)
+                if (vx < 0 && Math.Abs(Camera.X) < (SurfaceMap.MAPW * dummySprite.largeurFrame) - _screenInfo.GetViewPort().X)
                     Camera.X += vx;
 
                 if (vy > 0 && Camera.X < 0)
                     Camera.X += vx;
 
-                if (vy < 0 && Math.Abs(Camera.Y) < (SurfaceMap.MAPH * dummySprite.hauteurFrame) - screenInfo.GetViewPort().Y)
+                if (vy < 0 && Math.Abs(Camera.Y) < (SurfaceMap.MAPH * dummySprite.hauteurFrame) - _screenInfo.GetViewPort().Y)
                     Camera.Y += vy;
 
                 if (vy > 0 && Camera.Y < 0)
                     Camera.Y += vy;
             }
-
-            /*
-            //if ((ms.X > screenInfo.GetScreenSize().X - 5 || _surfaceShip.x > screenInfo.GetViewPort().X / 2) && Math.Abs(Camera.X) < (SurfaceMap.MAPW * dummySprite.largeurFrame) - screenInfo.GetViewPort().X)
-            if ((distX < 5) && Math.Abs(Camera.X) < (SurfaceMap.MAPW * dummySprite.largeurFrame) - screenInfo.GetViewPort().X)
-            {
-                Camera.X -= CAMSPEED;
-            }
-            //if ((ms.X < 5 || _surfaceShip.x < screenInfo.GetViewPort().X / 2) && Camera.X < 0)
-            if ((distX > 5) && Camera.X < 0)
-            {
-                Camera.X += CAMSPEED;
-            }
-            //if ((ms.Y > screenInfo.GetScreenSize().Y - 5 || _surfaceShip.y > screenInfo.GetViewPort().Y / 2) && Math.Abs(Camera.Y) < (SurfaceMap.MAPH * dummySprite.hauteurFrame) - screenInfo.GetViewPort().Y)
-            if ((distY < 5) && Math.Abs(Camera.Y) < (SurfaceMap.MAPH * dummySprite.hauteurFrame) - screenInfo.GetViewPort().Y)
-            {
-                Camera.Y -= CAMSPEED;
-            }
-            //if ((ms.Y < 5 || _surfaceShip.y < screenInfo.GetViewPort().Y / 2) && Camera.Y < 0)
-            if ((distY > 5) && Camera.Y < 0)
-            {
-                Camera.Y += CAMSPEED;
-            }
             */
 
-            _surfaceShip.Update(Camera, gameTime);
+            if ((ms.X > _screenInfo.GetScreenSize().X - 5) && Math.Abs(_Camera.X) < (SurfaceMap.MAPW * _sprTiles.largeurFrame) - _screenInfo.GetViewPort().X)
+            //if ((distX < 5) && Math.Abs(Camera.X) < (SurfaceMap.MAPW * dummySprite.largeurFrame) - screenInfo.GetViewPort().X)
+            {
+                _Camera.X -= _CAMSPEED;
+            }
+            else if (ms.X < 5 && _Camera.X < 0)
+            //if ((distX > 5) && Camera.X < 0)
+            {
+                _Camera.X += _CAMSPEED;
+            }
+            if ((ms.Y > _screenInfo.GetScreenSize().Y - 5) && Math.Abs(_Camera.Y) < (SurfaceMap.MAPH * _sprTiles.hauteurFrame) - _screenInfo.GetViewPort().Y)
+            //if ((distY < 5) && Math.Abs(Camera.Y) < (SurfaceMap.MAPH * dummySprite.hauteurFrame) - screenInfo.GetViewPort().Y)
+            {
+                _Camera.Y -= _CAMSPEED;
+            }
+            else if (ms.Y < 5 && _Camera.Y < 0)
+            //if ((distY > 5) && Camera.Y < 0)
+            {
+                _Camera.Y += _CAMSPEED;
+            }
 
-            //_surfaceShip.MapPosition.X += 0.5f;
-            //_surfaceShip.MapPosition.Y += 0.5f;
+            _surfaceShip.Update(_Camera, gameTime);
 
-            oldms = ms;
+            _surface.Discover(_surfaceShip.MapPosition / new Vector2(16, 16));
+
+            _oldms = ms;
+
+            _timerBlink.Update(gameTime);
+            if (_timerBlink.Ended)
+            {
+                _bDestinationVisible = !_bDestinationVisible;
+            }
 
             base.Update(gameTime);
         }
@@ -118,13 +137,33 @@ namespace Lost_Colonies
         public override void Draw()
         {
             for (int l = 0; l < SurfaceMap.MAPH; l++)
+            {
                 for (int c = 0; c < SurfaceMap.MAPW; c++)
                 {
-                    dummySprite.frame = surface.Map[l, c];
-                    dummySprite.x = (int)((c * 16) + Camera.X);
-                    dummySprite.y = (int)(l * 16 + Camera.Y);
-                    dummySprite.Draw();
+                    // Tuile de surface
+                    _sprTiles.x = (int)((c * 16) + _Camera.X);
+                    _sprTiles.y = (int)(l * 16 + _Camera.Y);
+                    if (_surface.Fog[l, c] != 1)
+                    {
+                        _sprTiles.frame = _surface.Map[l, c];
+                        _sprTiles.Draw();
+                    }
+
+                    // Tuile de fog
+                    //SpriteFont font = GCServiceLocator.GetService<FontManager>().getFont("fontSmall");
+                    //spriteBatch.DrawString(font, _surface.Bitmask[l, c].ToString(), _sprTiles.Position, Color.White);
+                    _sprTiles.frame = 8 + _surface.Bitmask[l, c];
+                    _sprTiles.Draw();
+
+                    // Tuile de sélection
+                    if (l == _mapDestination.Y && c == _mapDestination.X && _bDestinationVisible && !_surfaceShip.isArrived)
+                    {
+                        _sprDestination.Position = _sprTiles.Position;
+                        _sprDestination.Draw();
+                    }
                 }
+
+            }
 
             _surfaceShip.Draw();
 

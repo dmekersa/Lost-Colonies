@@ -35,14 +35,14 @@ namespace Lost_Colonies
             base.Load();
         }
 
-        public override void Start()
+        public override void Focus()
         {
             alphaBG = 0;
             alphaLogo = 0;
             alphaText = 0;
             controlManager.Reset();
             controlManager.SetMethodKey("play", Microsoft.Xna.Framework.Input.Keys.Space);
-            base.Start();
+            base.Focus();
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(music);
         }

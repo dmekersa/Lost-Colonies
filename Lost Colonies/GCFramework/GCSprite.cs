@@ -43,10 +43,14 @@ namespace Gamecodeur
         public float speed { get; set; }
         private float time;
 
+        GCScreenInfo _screenInfo;
+
         //static public List<GCSprite> lstSprites = new List<GCSprite>();
 
         public GCSprite(SpriteBatch pSpriteBatch, Texture2D pTexture, int pLargeurFrame = 0, int pHauteurFrame = 0) : base()
         {
+            _screenInfo = GCServiceLocator.GetService<GCScreenInfo>();
+
             spriteBatch = pSpriteBatch;
             texture = pTexture;
             isVisible = true;
@@ -142,6 +146,7 @@ namespace Gamecodeur
         public override void Draw()
         {
             if (!isVisible) return;
+
             Vector2 position;
 
             if (isPixel)
@@ -180,13 +185,12 @@ namespace Gamecodeur
                 source.Width = largeurFrame;
                 source.Height = hauteurFrame;
 
-
                 if (isCentered)
                 {
                     origine = new Vector2(largeurFrame / 2, hauteurFrame / 2);
                 }
-                spriteBatch.Draw(texture, position, source, Color.White * alpha, rotation, origine, zoom, effect, 0.0f);
 
+                spriteBatch.Draw(texture, position, source, Color.White * alpha, rotation, origine, zoom, effect, 0.0f);
             }
         }
     }

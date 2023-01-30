@@ -34,7 +34,7 @@ namespace Lost_Colonies
             base.Load();
         }
 
-        public override void Start()
+        public override void Focus()
         {
             alpha = 1f;
 
@@ -47,7 +47,7 @@ namespace Lost_Colonies
 
             assetManager.PreLoad(fileEntries);
 
-            base.Start();
+            base.Focus();
         }
 
         public override void Update(GameTime gameTime)

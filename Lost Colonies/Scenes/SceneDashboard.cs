@@ -15,13 +15,13 @@ namespace Lost_Colonies
         {
         }
 
-        public override void Start()
+        public override void Focus()
         {
             controlManager.Reset();
             controlManager.SetMethodKey("galaxy", Microsoft.Xna.Framework.Input.Keys.G);
             controlManager.SetMethodKey("explore", Microsoft.Xna.Framework.Input.Keys.E);
             controlManager.SetMethodKey("warp", Microsoft.Xna.Framework.Input.Keys.W);
-            base.Start();
+            base.Focus();
         }
 
 

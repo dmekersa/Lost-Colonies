@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Gamecodeur
 {
@@ -52,7 +51,7 @@ namespace Gamecodeur
                     scene.Load();
                     SceneListLoaded.Add(pName, scene);
                 }
-                scene.Start();
+                scene.Focus();
                 CurrentScene = scene;
                 return scene;
             }
