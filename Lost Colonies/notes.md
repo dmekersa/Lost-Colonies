@@ -116,5 +116,6 @@ Surface
 - Minimap
 - Placer une base
 - Action : Land
-- Commencer l'implémentation des donjons : Quel algo de génération ?
+- Commencer l'implémentation des donjons : Quel algo de génération ? 
+  Binding of Isaac avec des salles de tailles variables, vue façon Rogue64, minimap façon Roguecraft
 - Générer une surface plus réaliste (eau / terre / ...)
