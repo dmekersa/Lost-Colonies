@@ -10,6 +10,8 @@ namespace Lost_Colonies
         public int[,] Bitmask;
         public const int MAPW = 128;
         public const int MAPH = 128;
+        public const int TILEW = 16;
+        public const int TILEH = 16;
         Random rnd = new Random();
 
         public SurfaceMap()

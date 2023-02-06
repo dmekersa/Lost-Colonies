@@ -3,29 +3,27 @@ using Lost_Colonies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class SceneGalaxy : GCSceneBase
 {
-    Galaxy theGalaxy;
-    Texture2D texSelectMap;
-    Vector2 posSelectMap;
-    Planet nearestPlanet = null;
+    private Galaxy _theGalaxy;
+    private Texture2D _texSelectMap;
+    private Vector2 _posSelectMap;
+    private Planet _nearestPlanet = null;
+    private GameState _gameState;
 
     public override void Load()
     {
+        _gameState = GCServiceLocator.GetService<GameState>();
+
         // sélecteur de planète
-        texSelectMap = GCServiceLocator.GetService<ContentManager>().Load<Texture2D>("selectMap");
-        posSelectMap = new Vector2(0, 0);
+        _texSelectMap = GCServiceLocator.GetService<ContentManager>().Load<Texture2D>("selectMap");
+        _posSelectMap = new Vector2(_gameState.currentPlanet.Position.X, _gameState.currentPlanet.Position.Y);
 
         Debug.WriteLine("Load Galaxy");
-        theGalaxy = new Galaxy();
-        theGalaxy.Generate(256, 256*2, 256);
+
+        _theGalaxy = GCServiceLocator.GetService<GameState>().theGalaxy;
     }
 
     public override void Stop()
@@ -58,51 +56,56 @@ public class SceneGalaxy : GCSceneBase
 
         if (controlManager.Pressed("new"))
         {
-            theGalaxy.Generate(256, 256 * 2, 256);
-            posSelectMap = new Vector2(0, 0);
+            _theGalaxy.Generate(256, 256 * 2, 256);
+            _posSelectMap = new Vector2(0, 0);
         }
 
         bool bStick = true;
         if (controlManager.Down("right"))
         {
-            posSelectMap.X++;
+            _posSelectMap.X++;
             bStick = false;
         }
         if (controlManager.Down("left"))
         {
-            posSelectMap.X--;
+            _posSelectMap.X--;
             bStick = false;
         }
         if (controlManager.Down("down"))
         {
-            posSelectMap.Y++;
+            _posSelectMap.Y++;
             bStick = false;
         }
         if (controlManager.Down("up"))
         {
-            posSelectMap.Y--;
+            _posSelectMap.Y--;
             bStick = false;
         }
 
         if (bStick)
         {
             // Rechercher la planete la + proche de la croix
-            int minDistance = 9999;
-            Point posSelect = new Point((int)posSelectMap.X+1, (int)posSelectMap.Y+1);
-            foreach (Planet planet in theGalaxy.planets)
+            int minDistance = int.MaxValue;
+            Point posSelect = new Point((int)_posSelectMap.X + 1, (int)_posSelectMap.Y + 1);
+            foreach (Planet planet in _theGalaxy.planets)
             {
                 double distance = Utils.GetDistance((double)posSelect.X, (double)posSelect.Y, (double)planet.Position.X, (double)planet.Position.Y);
-                if (distance<minDistance)
+                if (distance < minDistance)
                 {
-                    nearestPlanet = planet;
+                    _nearestPlanet = planet;
                     minDistance = (int)distance;
                 }
             }
 
-            if (nearestPlanet!=null)
+            if (_nearestPlanet != null)
             {
-                posSelectMap.X = nearestPlanet.Position.X - 1;
-                posSelectMap.Y = nearestPlanet.Position.Y - 1;
+                _posSelectMap.X = _nearestPlanet.Position.X - 1;
+                _posSelectMap.Y = _nearestPlanet.Position.Y - 1;
+
+                if (_nearestPlanet != _gameState.targetPlanet && _nearestPlanet != _gameState.currentPlanet)
+                {
+                    _gameState.SetTargetPlanet(_nearestPlanet);
+                }
             }
         }
 
@@ -111,9 +114,9 @@ public class SceneGalaxy : GCSceneBase
 
     public override void Draw()
     {
-        theGalaxy.Draw(spriteBatch);
+        _theGalaxy.Draw(spriteBatch);
 
-        spriteBatch.Draw(texSelectMap, posSelectMap, Color.White);
+        spriteBatch.Draw(_texSelectMap, _posSelectMap, Color.White);
 
 
         base.Draw();
@@ -121,10 +124,10 @@ public class SceneGalaxy : GCSceneBase
 
     public override void DrawGUI()
     {
-        if (nearestPlanet != null)
+        if (_nearestPlanet != null)
         {
             SpriteFont font = GCServiceLocator.GetService<FontManager>().getFont("fontBig");
-            spriteBatch.DrawString(font, nearestPlanet.Name, new Vector2(5, (theGalaxy.Height*2) + 2), Color.White);
+            spriteBatch.DrawString(font, _nearestPlanet.Name, new Vector2(5, (_theGalaxy.Height * 2) + 2), Color.White);
         }
 
     }

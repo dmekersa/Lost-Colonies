@@ -15,6 +15,7 @@ namespace Lost_Colonies
         private int ScreenHeight;
         private RenderTarget2D _renderTarget;
         private GCAssetManager _assetManager;
+        private GameState _gameState;
 
         public GameLost()
         {
@@ -51,6 +52,10 @@ namespace Lost_Colonies
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             GCServiceLocator.RegisterService(_spriteBatch);
             GCServiceLocator.RegisterService(GraphicsDevice);
+
+            // Création de la galaxie
+            _gameState = new GameState();
+            GCServiceLocator.RegisterService<GameState>(_gameState);
 
             // TODO: use this.Content to load your game content here
             MainGame = new GCGame();

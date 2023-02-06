@@ -111,4 +111,10 @@ Surface
 
 ##Episode 15 (06/02/23)
 - Precalculer la surface de toutes les planêtes
+
+##Episode 16 (13/02/23)
+- Minimap
 - Placer une base
+- Action : Land
+- Commencer l'implémentation des donjons : Quel algo de génération ?
+- Générer une surface plus réaliste (eau / terre / ...)

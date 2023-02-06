@@ -12,9 +12,11 @@ public class Planet
 
     public string Name { get; private set; }
     public Point Position { get; private set; }
+    public SurfaceMap surfaceMap { get; private set; }
 
     public Planet(int pSeed, int pGalaxyWidth, int pGalaxyHeight)
     {
+        surfaceMap = new SurfaceMap();
         nameGenerator = new NameGenerator();
         Name = nameGenerator.GetPlanetName(pSeed);
         Position = new Point(random.Next(pGalaxyWidth), random.Next(pGalaxyHeight));
@@ -50,6 +52,28 @@ public class Galaxy
             planets.Add(thePlanet);
         }
         Debug.WriteLine("{0} generated planets", planets.Count);
+    }
+
+    public Planet GetFirstPlanet()
+    {
+        Planet result = null;
+        int minDistance = int.MaxValue;
+
+        Point posSelect = new Point(0, 0);
+        foreach (Planet planet in planets)
+        {
+            double distance = Utils.GetDistance((double)posSelect.X, (double)posSelect.Y, (double)planet.Position.X, (double)planet.Position.Y);
+            if (distance < minDistance)
+            {
+                result = planet;
+                minDistance = (int)distance;
+            }
+        }
+
+        Debug.WriteLine("Best planet is " + result.Name);
+
+        Debug.Assert(result != null, "Impossible qu'on n'ai pas trouvé de planete dans la galaxie !");
+        return result;
     }
 
     public void Draw(SpriteBatch spriteBatch)

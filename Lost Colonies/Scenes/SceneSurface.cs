@@ -47,7 +47,7 @@ namespace Lost_Colonies
 
             // GUI
             SpriteFont font = GCServiceLocator.GetService<FontManager>().getFont("fontSmall");
-            spriteBatch.DrawString(font, "Surface - [L] Land [D] Back to orbit", new Vector2(1, 1), Color.White);
+            spriteBatch.DrawString(font, "Surface - [L] Land [O] Back to orbit", new Vector2(1, 1), Color.White);
 
         }
 

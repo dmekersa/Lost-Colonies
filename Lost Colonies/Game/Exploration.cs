@@ -9,7 +9,7 @@ namespace Lost_Colonies
     {
         private SurfaceShip _surfaceShip;
 
-        private SurfaceMap _surface = new SurfaceMap();
+        private SurfaceMap _surface;
 
         private GCSprite _sprTiles;
         private GCSprite _sprDestination;
@@ -25,9 +25,11 @@ namespace Lost_Colonies
         private bool _bDestinationVisible;
 
         private GCScreenInfo _screenInfo;
+        private GameState _gameState;
 
         public Exploration()
         {
+            _gameState = GCServiceLocator.GetService<GameState>();
             _screenInfo = GCServiceLocator.GetService<GCScreenInfo>();
 
             GCTexture texTileset = new GCTexture("gfx/tiles");
@@ -50,11 +52,28 @@ namespace Lost_Colonies
 
         public void Reset()
         {
+            _Camera = new Vector2();
+
+            /*
             _surfaceShip.Position = new Vector2(_surfaceShip.largeurFrame, _surfaceShip.hauteurFrame);
+            _surfaceShip.MapDestination = _surfaceShip.Position;
+            _surfaceShip.MapPosition = _surfaceShip.Position;
+            */
+
+            _surfaceShip.Position = new Vector2(((SurfaceMap.MAPW / 2) * SurfaceMap.TILEW) + _surfaceShip.largeurFrame / 2, ((SurfaceMap.MAPH / 2) * SurfaceMap.TILEH) + _surfaceShip.hauteurFrame / 2);
+            _surfaceShip.MapDestination = _surfaceShip.Position;
+            _surfaceShip.MapPosition = _surfaceShip.Position;
+
+            _Camera.X = 0 - ((SurfaceMap.MAPW / 2) * SurfaceMap.TILEW);
+            _Camera.Y = 0 - ((SurfaceMap.MAPH / 2) * SurfaceMap.TILEH);
+            _Camera.X += (_screenInfo.GetViewPort().X / 2) - SurfaceMap.TILEW;
+            _Camera.Y += (_screenInfo.GetViewPort().Y / 2) - SurfaceMap.TILEH;
 
             _mapDestination = new Point(-1, -1);
 
             _bDestinationVisible = true;
+
+            _surface = _gameState.currentPlanet.surfaceMap;
         }
 
         public override void Update(GameTime gameTime)
