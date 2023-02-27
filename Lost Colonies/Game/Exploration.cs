@@ -8,6 +8,7 @@ namespace Lost_Colonies
     class Exploration : GCGameObject
     {
         private SurfaceShip _surfaceShip;
+        private SurfaceColony _surfaceColony;
 
         private SurfaceMap _surface;
         private Minimap _minimap;
@@ -42,6 +43,10 @@ namespace Lost_Colonies
             _surfaceShip.isCentered = true;
             _surfaceShip.frame = 2;
 
+            _surfaceColony = new SurfaceColony(spriteBatch, texTileset.texture, 32, 32);
+            _surfaceColony.isCentered = true;
+            _surfaceColony.frame = 8;
+
             _sprDestination = new GCSprite(spriteBatch, texTileset.texture, 16, 16);
             _sprDestination.isCentered = false;
             _sprDestination.frame = 3;
@@ -65,6 +70,10 @@ namespace Lost_Colonies
             _surfaceShip.MapDestination = _surfaceShip.Position;
             _surfaceShip.MapPosition = _surfaceShip.Position;
 
+            SurfaceMap sm = _gameState.currentPlanet.surfaceMap;
+            _surfaceColony.Position = new Vector2(sm.basePosition.X * SurfaceMap.TILEW, sm.basePosition.Y * SurfaceMap.TILEH);
+            _surfaceColony.MapPosition = _surfaceColony.Position;
+
             _Camera.X = 0 - ((SurfaceMap.MAPW / 2) * SurfaceMap.TILEW);
             _Camera.Y = 0 - ((SurfaceMap.MAPH / 2) * SurfaceMap.TILEH);
             _Camera.X += (_screenInfo.GetViewPort().X / 2) - SurfaceMap.TILEW;
@@ -74,12 +83,11 @@ namespace Lost_Colonies
 
             _bDestinationVisible = true;
 
-            _surface = _gameState.currentPlanet.surfaceMap;
+            _surface = sm;
 
             _minimap = new Minimap((int)_screenInfo.GetViewPort().X - 65, 1, 64, 64, _surface.Map, _surface.Fog);
             _minimap.SetColor(0, new Color(0, 255, 0));
             _minimap.SetColor(1, new Color(120, 120, 120));
-
         }
 
         public override void Update(GameTime gameTime)
@@ -146,6 +154,8 @@ namespace Lost_Colonies
 
             _surfaceShip.Update(_Camera, gameTime);
 
+            _surfaceColony.Update(_Camera, gameTime);
+
             // Passe à discover la position en ligne/colonne, cad sa position en pixels divisée par 16
             _surface.Discover(_surfaceShip.MapPosition / new Vector2(16, 16));
 
@@ -161,6 +171,9 @@ namespace Lost_Colonies
             Vector2 pShip = new Vector2();
             pShip = _surfaceShip.MapPosition / new Vector2(16, 16);
             _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 255, 255));
+            pShip = _surfaceColony.MapPosition / new Vector2(16, 16);
+            _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 0, 255));
+
             _minimap.Update(gameTime);
 
             base.Update(gameTime);
@@ -197,6 +210,9 @@ namespace Lost_Colonies
 
             }
 
+            Vector2 cellColony = _surfaceColony.MapPosition / new Vector2(16, 16);
+            if (_surface.Fog[(int)cellColony.Y, (int)cellColony.X] != 1)
+                _surfaceColony.Draw();
             _surfaceShip.Draw();
 
             _minimap.Draw();

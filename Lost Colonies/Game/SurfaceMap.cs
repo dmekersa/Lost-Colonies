@@ -12,10 +12,12 @@ namespace Lost_Colonies
         public const int MAPH = 128;
         public const int TILEW = 16;
         public const int TILEH = 16;
+        public Point basePosition;
         Random rnd = new Random();
 
         public SurfaceMap()
         {
+            // Génère la surface
             Map = new int[MAPH, MAPW];
             Fog = new int[MAPH, MAPW];
             Bitmask = new int[MAPH, MAPW];
@@ -36,6 +38,8 @@ namespace Lost_Colonies
                 }
             }
 
+            // Positionne une base
+            basePosition = new Point(rnd.Next(2, MAPW - 4), rnd.Next(2, MAPH - 4));
         }
 
         public bool isInMap(Vector2 pPosition)

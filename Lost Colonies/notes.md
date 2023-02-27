@@ -115,8 +115,13 @@ Surface
 ##Episode 16 (13/02/23)
 - Minimap
 
-##Episode 17 (20/02/23)
+##Episode 17 (27/02/23)
 - Placer une base
+
+##Episode 18 (06/03/23)
+- Minimap zone visible
+- Sonar
+
 - Action : Land
 - Commencer l'implémentation des donjons : Quel algo de génération ? 
   Binding of Isaac avec des salles de tailles variables, vue façon Rogue64, minimap façon Roguecraft
