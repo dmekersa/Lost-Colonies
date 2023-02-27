@@ -114,8 +114,12 @@ Surface
 
 ##Episode 16 (13/02/23)
 - Minimap
+
+##Episode 17 (20/02/23)
 - Placer une base
 - Action : Land
 - Commencer l'implémentation des donjons : Quel algo de génération ? 
   Binding of Isaac avec des salles de tailles variables, vue façon Rogue64, minimap façon Roguecraft
 - Générer une surface plus réaliste (eau / terre / ...)
+- Effet de warp
+

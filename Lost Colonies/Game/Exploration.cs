@@ -10,6 +10,7 @@ namespace Lost_Colonies
         private SurfaceShip _surfaceShip;
 
         private SurfaceMap _surface;
+        private Minimap _minimap;
 
         private GCSprite _sprTiles;
         private GCSprite _sprDestination;
@@ -74,6 +75,11 @@ namespace Lost_Colonies
             _bDestinationVisible = true;
 
             _surface = _gameState.currentPlanet.surfaceMap;
+
+            _minimap = new Minimap((int)_screenInfo.GetViewPort().X - 65, 1, 64, 64, _surface.Map, _surface.Fog);
+            _minimap.SetColor(0, new Color(0, 255, 0));
+            _minimap.SetColor(1, new Color(120, 120, 120));
+
         }
 
         public override void Update(GameTime gameTime)
@@ -140,6 +146,7 @@ namespace Lost_Colonies
 
             _surfaceShip.Update(_Camera, gameTime);
 
+            // Passe à discover la position en ligne/colonne, cad sa position en pixels divisée par 16
             _surface.Discover(_surfaceShip.MapPosition / new Vector2(16, 16));
 
             _oldms = ms;
@@ -149,6 +156,12 @@ namespace Lost_Colonies
             {
                 _bDestinationVisible = !_bDestinationVisible;
             }
+
+            _minimap.ResetObjects();
+            Vector2 pShip = new Vector2();
+            pShip = _surfaceShip.MapPosition / new Vector2(16, 16);
+            _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 255, 255));
+            _minimap.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -185,6 +198,8 @@ namespace Lost_Colonies
             }
 
             _surfaceShip.Draw();
+
+            _minimap.Draw();
 
             base.Draw();
         }
