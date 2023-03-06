@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Lost_Colonies
 {
@@ -13,8 +14,11 @@ namespace Lost_Colonies
     public class Minimap
     {
         public Point Position { get; private set; }
+        private Point _UpperLeft;
         private int width;
         private int height;
+        private int _visibleColumns;
+        private int _visibleRows;
         private Dictionary<int, Texture2D> _colors;
         private List<mmObject> _lstObjects;
         private int[,] _map;
@@ -24,11 +28,13 @@ namespace Lost_Colonies
         Texture2D _black;
         Texture2D _white;
 
-        public Minimap(int pX, int pY, int pWidth, int pHeight, int[,] pMap, int[,] pFog)
+        public Minimap(int pX, int pY, int pWidth, int pHeight, int pVisibleColumns, int pVisibleRows, int[,] pMap, int[,] pFog)
         {
             Position = new Point(pX, pY);
             width = pWidth;
             height = pHeight;
+            _visibleColumns = pVisibleColumns;
+            _visibleRows = pVisibleRows;
             _colors = new Dictionary<int, Texture2D>();
             _lstObjects = new List<mmObject>();
             _map = pMap;
@@ -38,6 +44,12 @@ namespace Lost_Colonies
 
             _white = new Texture2D(GCServiceLocator.GetService<GraphicsDevice>(), 1, 1);
             _white.SetData(new[] { new Color(255, 255, 255) });
+        }
+
+        public void SetUpperLeft(int pCol, int pRow)
+        {
+            _UpperLeft = new Point(pCol, pRow);
+            Debug.WriteLine(pCol + "," + pRow);
         }
 
         public void SetColor(int pID, Color pColor)
@@ -106,7 +118,6 @@ namespace Lost_Colonies
                         t = _colors[id];
                     }
                     spriteBatch.Draw(t, new Vector2(Position.X + x, Position.Y + y), Color.White);
-
                 }
             }
 
@@ -126,6 +137,21 @@ namespace Lost_Colonies
                     }
 
                 }
+            }
+
+            // Affiche la surface visible
+            Vector2 start = new Vector2(Position.X + (_UpperLeft.X / ratioX), (int)(Position.Y + (_UpperLeft.Y / ratioY)));
+            Vector2 end = start + new Vector2(_visibleColumns / ratioX, _visibleRows / ratioY);
+
+            for (float y = start.Y; y <= end.Y; y++)
+            {
+                spriteBatch.Draw(_white, new Vector2(start.X, y), Color.White);
+                spriteBatch.Draw(_white, new Vector2(end.X, y), Color.White);
+            }
+            for (float x = start.X; x <= end.X; x++)
+            {
+                spriteBatch.Draw(_white, new Vector2(x, start.Y), Color.White);
+                spriteBatch.Draw(_white, new Vector2(x, end.Y), Color.White);
             }
         }
     }

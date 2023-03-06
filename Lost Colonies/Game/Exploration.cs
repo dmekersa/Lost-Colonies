@@ -74,6 +74,7 @@ namespace Lost_Colonies
             _surfaceColony.Position = new Vector2(sm.basePosition.X * SurfaceMap.TILEW, sm.basePosition.Y * SurfaceMap.TILEH);
             _surfaceColony.MapPosition = _surfaceColony.Position;
 
+            // On centre la camera sur le centre de la map
             _Camera.X = 0 - ((SurfaceMap.MAPW / 2) * SurfaceMap.TILEW);
             _Camera.Y = 0 - ((SurfaceMap.MAPH / 2) * SurfaceMap.TILEH);
             _Camera.X += (_screenInfo.GetViewPort().X / 2) - SurfaceMap.TILEW;
@@ -85,9 +86,30 @@ namespace Lost_Colonies
 
             _surface = sm;
 
-            _minimap = new Minimap((int)_screenInfo.GetViewPort().X - 65, 1, 64, 64, _surface.Map, _surface.Fog);
+            // On calcule la surface visible exprimée en colonnes et lignes
+            int nbCol = (int)(_screenInfo.GetViewPort().X / SurfaceMap.TILEW);
+            int nbRow = (int)(_screenInfo.GetViewPort().Y / SurfaceMap.TILEH);
+
+            _minimap = new Minimap((int)_screenInfo.GetViewPort().X - 65, 1, 64, 64, nbCol, nbRow, _surface.Map, _surface.Fog);
             _minimap.SetColor(0, new Color(0, 255, 0));
             _minimap.SetColor(1, new Color(120, 120, 120));
+
+            UpdateMinimap();
+        }
+
+        private void UpdateMinimap()
+        {
+            _minimap.ResetObjects();
+            // Position du vaisseau en colonnes/lignes
+            Vector2 pShip = new Vector2();
+            pShip = _surfaceShip.MapPosition / new Vector2(16, 16);
+            _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 255, 255));
+            pShip = _surfaceColony.MapPosition / new Vector2(16, 16);
+            _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 0, 255));
+
+            int nbCol = (int)(_screenInfo.GetViewPort().X / SurfaceMap.TILEW);
+            int nbRow = (int)(_screenInfo.GetViewPort().Y / SurfaceMap.TILEH);
+            _minimap.SetUpperLeft((int)Math.Abs(_Camera.X) / SurfaceMap.TILEW, (int)Math.Abs(_Camera.Y) / SurfaceMap.TILEH); ;
         }
 
         public override void Update(GameTime gameTime)
@@ -167,12 +189,7 @@ namespace Lost_Colonies
                 _bDestinationVisible = !_bDestinationVisible;
             }
 
-            _minimap.ResetObjects();
-            Vector2 pShip = new Vector2();
-            pShip = _surfaceShip.MapPosition / new Vector2(16, 16);
-            _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 255, 255));
-            pShip = _surfaceColony.MapPosition / new Vector2(16, 16);
-            _minimap.AddObject(new Point((int)pShip.X, (int)pShip.Y), new Color(255, 0, 255));
+            UpdateMinimap();
 
             _minimap.Update(gameTime);
 

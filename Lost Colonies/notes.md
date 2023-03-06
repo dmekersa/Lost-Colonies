@@ -122,7 +122,8 @@ Surface
 - Minimap zone visible
 - Sonar
 
-- Action : Land
+- Action : Land quand le vaisseau est à proximité de la colonie
+
 - Commencer l'implémentation des donjons : Quel algo de génération ? 
   Binding of Isaac avec des salles de tailles variables, vue façon Rogue64, minimap façon Roguecraft
 - Générer une surface plus réaliste (eau / terre / ...)
