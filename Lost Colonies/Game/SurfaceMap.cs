@@ -12,7 +12,8 @@ namespace Lost_Colonies
         public const int MAPH = 128;
         public const int TILEW = 16;
         public const int TILEH = 16;
-        public Point basePosition;
+        public PlanetBase planetBase;
+        public Point basePosition { get { return planetBase.basePosition; } }
         Random rnd = new Random();
 
         public SurfaceMap()
@@ -39,7 +40,8 @@ namespace Lost_Colonies
             }
 
             // Positionne une base
-            basePosition = new Point(rnd.Next(2, MAPW - 4), rnd.Next(2, MAPH - 4));
+            planetBase = new PlanetBase();
+            planetBase.basePosition = new Point(rnd.Next(2, MAPW - 4), rnd.Next(2, MAPH - 4));
         }
 
         public bool isInMap(Vector2 pPosition)

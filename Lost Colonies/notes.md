@@ -120,10 +120,16 @@ Surface
 
 ##Episode 18 (06/03/23)
 - Minimap zone visible
-- Sonar
+
+##Episode 19 (01/05/23)
+- Génération des donjons façon Binding of Isaac
+
+##Episode 20 (29/05/23)
+- Affichage des donjons façon mini map
+
+
 
 - Action : Land quand le vaisseau est à proximité de la colonie
-
 - Commencer l'implémentation des donjons : Quel algo de génération ? 
   Binding of Isaac avec des salles de tailles variables, vue façon Rogue64, minimap façon Roguecraft
 - Générer une surface plus réaliste (eau / terre / ...)
