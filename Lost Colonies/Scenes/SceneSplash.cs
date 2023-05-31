@@ -1,15 +1,8 @@
 ﻿using Gamecodeur;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lost_Colonies
 {
@@ -57,16 +50,12 @@ namespace Lost_Colonies
             if (zoom < 0.2)
                 zoom += 0.0005f;
 
-            if ((speed<0 && alpha > 0) || (speed > 0 && alpha < 1))
+            if ((speed < 0 && alpha > 0) || (speed > 0 && alpha < 1))
                 alpha += speed;
 
             assetManager.NextPreload();
-            if (!assetManager.PreloadDone())
-            {
-                Debug.WriteLine("pas terminé");
-            }
 
-            if (alpha>1f && assetManager.PreloadDone())
+            if (alpha > 1f && assetManager.PreloadDone())
             {
                 alpha = 1;
                 GCServiceLocator.GetService<GCSceneManager>().StartScene("menu");
@@ -86,7 +75,7 @@ namespace Lost_Colonies
 
         public override void Draw()
         {
-            spriteBatch.Draw(texSplash, new Vector2(texBlack.Width / 2, texBlack.Height / 2), null, Color.White, 0, new Vector2(texBlack.Width/2, texBlack.Height/2), 1+zoom, SpriteEffects.None, 0);
+            spriteBatch.Draw(texSplash, new Vector2(texBlack.Width / 2, texBlack.Height / 2), null, Color.White, 0, new Vector2(texBlack.Width / 2, texBlack.Height / 2), 1 + zoom, SpriteEffects.None, 0);
             spriteBatch.Draw(texBlack, new Vector2(0, 0), Color.White * alpha);
         }
 

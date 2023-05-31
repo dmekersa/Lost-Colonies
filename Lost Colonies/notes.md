@@ -127,6 +127,10 @@ Surface
 ##Episode 20 (29/05/23)
 - Affichage des donjons façon mini map
 
+##Episode 21 
+- Faire coincider les salles "escaliers"
+- Commencer le mode gameplay
+- La minimap affiche la salle courante
 
 
 - Action : Land quand le vaisseau est à proximité de la colonie

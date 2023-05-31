@@ -20,7 +20,6 @@ namespace Lost_Colonies
         }
     }
 
-
     public class BaseFloor
     {
         private Random _rnd = new Random();
@@ -46,7 +45,7 @@ namespace Lost_Colonies
             int startCol = _rnd.Next(width);
             int startLine = _rnd.Next(height);
 
-            int nbRooms = _rnd.Next(1, 20 + 1);
+            int nbRooms = _rnd.Next(1, 10 + 1);
 
             // Crée la salle de départ
             CreateRoom(startLine, startCol);
@@ -100,7 +99,6 @@ namespace Lost_Colonies
             }
         }
     }
-
 
     public class PlanetBase
     {

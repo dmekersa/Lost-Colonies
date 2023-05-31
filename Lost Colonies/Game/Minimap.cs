@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Lost_Colonies
 {
@@ -49,7 +48,6 @@ namespace Lost_Colonies
         public void SetUpperLeft(int pCol, int pRow)
         {
             _UpperLeft = new Point(pCol, pRow);
-            Debug.WriteLine(pCol + "," + pRow);
         }
 
         public void SetColor(int pID, Color pColor)
